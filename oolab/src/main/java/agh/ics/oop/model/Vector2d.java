@@ -33,7 +33,7 @@ public class Vector2d {
         return new Vector2d(X + other.getX(), Y + other.getY());
     }
 
-    public Vector2d substract(Vector2d other) {
+    public Vector2d subtract(Vector2d other) {
         return new Vector2d(X - other.getX(), Y - other.getY());
     }
 
