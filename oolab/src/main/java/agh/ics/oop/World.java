@@ -33,7 +33,7 @@ public class World {
         System.out.println(position1.add(position2));
 
         System.out.println();
-        MapDirection direction = MapDirection.WEST;
+        MapDirection direction = MapDirection.NORTH;
         System.out.println(direction);
         System.out.println(direction.previous());
         System.out.println(direction.next());
