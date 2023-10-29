@@ -3,36 +3,38 @@ package agh.ics.oop;
 import agh.ics.oop.model.MoveDirection;
 
 import javax.lang.model.type.NullType;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OptionParser {
-    static MoveDirection[] move_parser(String[] args) {
-        MoveDirection[] answer;
-        answer = new MoveDirection[args.length];
+    public static ArrayList<MoveDirection> move_parser(String[] args) {
+        ArrayList<MoveDirection> moveList;
+        moveList = new ArrayList<MoveDirection>();
 
         for(int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "forward":
                 case "f":
-                    answer[i] = MoveDirection.FORWARD;
+                    moveList.add(MoveDirection.FORWARD);
                     break;
                 case "backward":
                 case "b":
-                    answer[i] = MoveDirection.BACKWARD;
+                    moveList.add(MoveDirection.BACKWARD);
                     break;
                 case "right":
                 case "r":
-                    answer[i] = MoveDirection.RIGHT;
+                    moveList.add(MoveDirection.RIGHT);
                     break;
                 case "left":
                 case "l":
-                    answer[i] = MoveDirection.LEFT;
+                    moveList.add(MoveDirection.LEFT);
                     break;
                 default: {
-                    answer[i] = null;
+                    ;
                 }
             }
         }
 
-        return answer;
+        return moveList;
     }
 }
