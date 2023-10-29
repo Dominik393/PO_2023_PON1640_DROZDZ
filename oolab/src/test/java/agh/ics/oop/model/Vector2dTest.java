@@ -2,82 +2,98 @@ package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.security.KeyStore;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class Vector2dTest {
     @Test
     public void Tostring(){
         for(int i = -2; i<= 2; i++){
-            System.out.println(new Vector2d(i,i) + "  " + new Vector2d(i - 10, i + 10));
+            String actual_string = new Vector2d(i,i).toString();
+            assertEquals(actual_string, "(%d,%d)".formatted(i,i));
         }
+
     }
 
     @Test
-    public void equals(Vector2d other){
-        System.out.println("Powinna być prawda:  " + other.equals(other));
-        System.out.printf("Powinnien wyjść fałsz: %s%n", other.equals(new Vector2d(other.getX(), other.getY() + 1)) && (other.equals(new Vector2d(other.getX() + 1, other.getY()))));
+    public void equals(){
+        Vector2d vec = new Vector2d(5,10);
+        assertTrue(vec.equals(vec));
+        assertFalse(vec.equals(new Vector2d(vec.getX()-1, vec.getY()+1)));
     }
 
     @Test
-    public void precedes(Vector2d other){
-        System.out.println("Powinna być prawda:  " + other.precedes(other));
-        System.out.println("Powinna być prawda:  " + other.precedes(other.add(new Vector2d(1,0))));
-        System.out.println("Powinna być prawda:  " + other.precedes(other.add(new Vector2d(0,1))));
+    public void precedes(){
+        Vector2d vec = new Vector2d(0,0);
 
-        System.out.println("Powinnien wyjść fałsz:  " + other.precedes(other.add(new Vector2d(-1,0))));
-        System.out.println("Powinnien wyjść fałsz:  " + other.precedes(other.add(new Vector2d(0,-1))));
-        System.out.println("Powinnien wyjść fałsz:  " + other.precedes(other.add(new Vector2d(-1,-1))));
+        assertTrue(vec.precedes(vec));
+        assertTrue(vec.precedes(vec.add(new Vector2d(1,0))));
+        assertTrue(vec.precedes(vec.add(new Vector2d(0,1))));
+
+        assertFalse(vec.precedes(vec.add(new Vector2d(-1,0))));
+        assertFalse(vec.precedes(vec.add(new Vector2d(0,-1))));
+        assertFalse(vec.precedes(vec.add(new Vector2d(-1,-1))));
     }
 
     @Test
-    public void follows(Vector2d other){
-        System.out.println("Powinna być prawda:  " + other.follows(other));
-        System.out.println("Powinna być prawda:  " + other.follows(other.add(new Vector2d(-1,0))));
-        System.out.println("Powinna być prawda:  " + other.follows(other.add(new Vector2d(0,-1))));
+    public void follows(){
+        Vector2d vec = new Vector2d(0,0);
+        assertTrue(vec.follows(vec));
+        assertTrue(vec.follows(vec.add(new Vector2d(-1,0))));
+        assertTrue(vec.follows(vec.add(new Vector2d(0,-1))));
 
-        System.out.println("Powinnien wyjść fałsz:  " + other.follows(other.add(new Vector2d(1,0))));
-        System.out.println("Powinnien wyjść fałsz:  " + other.follows(other.add(new Vector2d(0,1))));
-        System.out.println("Powinnien wyjść fałsz:  " + other.follows(other.add(new Vector2d(1,1))));
+        assertFalse(vec.follows(vec.add(new Vector2d(1,0))));
+        assertFalse(vec.follows(vec.add(new Vector2d(0,1))));
+        assertFalse(vec.follows(vec.add(new Vector2d(1,1))));
     }
 
     @Test
-    public void upperRight(Vector2d other){
-        System.out.println("dokladnie other: " + other.upperRight(other));
-        System.out.println("Tylko X z other: " + other.upperRight(other.add(new Vector2d(0,1))));
-        System.out.println("Tylko Y z other: " + other.upperRight(other.add(new Vector2d(0,1))));
-        System.out.println("Nic z other: " + other.upperRight(other.add(new Vector2d(1,1))));
+    public void upperRight(){
+        Vector2d vec = new Vector2d(0,0);
+
+        assertEquals(vec, vec.upperRight(vec));
+        assertEquals(vec.add(new Vector2d(0,1)), vec.upperRight(vec.add(new Vector2d(0,1))));
+        assertEquals(vec.add(new Vector2d(1,0)), vec.upperRight(vec.add(new Vector2d(1,0))));
+        assertEquals(vec.add(new Vector2d(1,1)), vec.upperRight(vec.add(new Vector2d(1,1))));
     }
 
     @Test
-    public void lowerLeft(Vector2d other){
-        System.out.println("dokladnie other: " + other.upperRight(other));
-        System.out.println("Tylko X z other: " + other.upperRight(other.add(new Vector2d(0,1))));
-        System.out.println("Tylko Y z other: " + other.upperRight(other.add(new Vector2d(0,1))));
-        System.out.println("Nic z other: " + other.upperRight(other.add(new Vector2d(1,1))));
+    public void lowerLeft(){
+        Vector2d vec = new Vector2d(0,0);
+
+        assertEquals(vec, vec.lowerLeft(vec));
+        assertEquals(vec.add(new Vector2d(0,-1)), vec.lowerLeft(vec.add(new Vector2d(0,-1))));
+        assertEquals(vec.add(new Vector2d(-1,0)), vec.lowerLeft(vec.add(new Vector2d(-1,0))));
+        assertEquals(vec.add(new Vector2d(-1,-1)), vec.lowerLeft(vec.add(new Vector2d(-1,-1))));
     }
 
     @Test
-    public void add(Vector2d other){
-        System.out.println("Takie samo: " + other.add(new Vector2d(0,0)));
-        System.out.println("Takie większe X: " + other.add(new Vector2d(1,0)));
-        System.out.println("Takie mniejsze X: " + other.add(new Vector2d(-1,0)));
-        System.out.println("Takie większe Y: " + other.add(new Vector2d(0,1)));
-        System.out.println("Takie mniejsze Y: " + other.add(new Vector2d(0,-1)));
+    public void add(){
+        Vector2d vec = new Vector2d(0,0);
+
+        assertEquals(vec, vec.add(new Vector2d(0,0)));
+        assertEquals(new Vector2d(1,0), vec.add(new Vector2d(1,0)));
+        assertEquals(new Vector2d(0,1), vec.add(new Vector2d(0,1)));
+        assertEquals(new Vector2d(-1,0), vec.add(new Vector2d(-1,0)));
+        assertEquals(new Vector2d(0,-1), vec.add(new Vector2d(0,-1)));
     }
 
     @Test
-    public void subtract(Vector2d other){
-        System.out.println("Takie samo: " + other.subtract(new Vector2d(0,0)));
-        System.out.println("Takie mniejsze X: " + other.subtract(new Vector2d(1,0)));
-        System.out.println("Takie większe X: " + other.subtract(new Vector2d(-1,0)));
-        System.out.println("Takie mniejsze Y: " + other.subtract(new Vector2d(0,1)));
-        System.out.println("Takie większe Y: " + other.subtract(new Vector2d(0,-1)));
+    public void subtract(){
+        Vector2d vec = new Vector2d(0,0);
+
+        assertEquals(vec, vec.subtract(new Vector2d(0,0)));
+        assertEquals(new Vector2d(-1,0), vec.subtract(new Vector2d(1,0)));
+        assertEquals(new Vector2d(0,-1), vec.subtract(new Vector2d(0,1)));
+        assertEquals(new Vector2d(1,0), vec.subtract(new Vector2d(-1,0)));
+        assertEquals(new Vector2d(0,1), vec.subtract(new Vector2d(0,-1)));
     }
 
     @Test
     public void opposite(){
-        Vector2d[] vectors = {new Vector2d(-1,-2),new Vector2d(0,0), new Vector2d(1,2)};
-
-        for(Vector2d vector: vectors){
-            System.out.println("Powinno być (%s,%s), a jest: ".formatted(vector.getX(),vector.getY()) + vector);
-        }
+        assertEquals(new Vector2d(-1,-2), new Vector2d(1,2).opposite());
+        assertEquals(new Vector2d(1,2), new Vector2d(-1,-2).opposite());
+        assertEquals(new Vector2d(0,0), new Vector2d(0,0).opposite());
     }
 }
