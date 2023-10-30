@@ -30,54 +30,38 @@ public class Animal {
     }
 
     public boolean isAt(Vector2d pos){
-        return (position.getX() == pos.getX() && position.getY() == pos.getY());
+        return (position.equals(pos));
     }
 
-    private void advance(int val){
-        switch (this.orientation){
-            case NORTH -> this.position.add(new Vector2d(1,0));
+    private void inBounds(int minX, int minY, int maxX, int maxY){
+        if (this.position.getX() > maxX) {
+            this.position = new Vector2d(maxX, this.position.getY());
+        }
+        if (this.position.getY() > maxY) {
+            this.position = new Vector2d(this.position.getX(), maxY);
+        }
+        if (this.position.getX() < minX){
+            this.position = new Vector2d(minX, this.position.getY());
+        }
+        if (this.position.getY() < minY){
+            this.position = new Vector2d(this.position.getX(), minY);
         }
     }
 
     public void move(MoveDirection direction){
-        final int maxPos = 4;
-        final int minPos = 0;
-
         switch (direction){
             case LEFT -> this.orientation = this.orientation.previous();
             case RIGHT -> this.orientation = this.orientation.next();
             case FORWARD -> {
                 this.position = this.position.add(this.orientation.toUnitVector());
 
-                if (this.position.getX() > maxPos) {
-                    this.position = new Vector2d(maxPos, this.position.getY());
-                }
-                if (this.position.getY() > maxPos) {
-                    this.position = new Vector2d(this.position.getX(), maxPos);
-                }
-                if (this.position.getX() < minPos){
-                    this.position = new Vector2d(minPos, this.position.getY());
-                }
-                if (this.position.getY() < minPos){
-                    this.position = new Vector2d(this.position.getX(), minPos);
-                }
+                inBounds(0,0,4,4);
             }
             case BACKWARD -> {
                 this.position = this.position.subtract(this.orientation.toUnitVector());
 
-                if (this.position.getX() > maxPos) {
-                    this.position = new Vector2d(maxPos, this.position.getY());
-                }
-                if (this.position.getY() > maxPos) {
-                    this.position = new Vector2d(this.position.getX(), maxPos);
-                }
-                if (this.position.getX() < minPos){
-                    this.position = new Vector2d(minPos, this.position.getY());
-                }
-                if (this.position.getY() < minPos){
-                    this.position = new Vector2d(this.position.getX(), minPos);
-                }
+                inBounds(0,0,4,4);
             }
-            }
+        }
     }
 }
