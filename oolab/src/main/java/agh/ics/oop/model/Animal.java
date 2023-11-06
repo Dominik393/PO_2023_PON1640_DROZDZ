@@ -1,6 +1,8 @@
 package agh.ics.oop.model;
 
 
+import java.util.Objects;
+
 public class Animal {
     private MapDirection orientation;
     private Vector2d position;
@@ -10,9 +12,9 @@ public class Animal {
         orientation = MapDirection.NORTH;
     }
 
-    public Animal(Vector2d pos, MapDirection orien){
+    public Animal(Vector2d pos){
         position = pos;
-        orientation = orien;
+        orientation = MapDirection.NORTH;
     }
 
     public MapDirection getOrientation(){
@@ -25,43 +27,60 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Obecna pozycja zwierzęcia to: (%d, %d) %nObecna orientacja zwierzęcia to: %s".formatted(position.getX(),
-                position.getY(), orientation);
+        String orien;
+        switch (this.orientation){
+            case NORTH -> orien = "N";
+            case WEST -> orien = "W";
+            case SOUTH -> orien = "S";
+            case EAST -> orien = "E";
+            default -> orien = "Wydarzyło się coś niemorzliwego";
+        }
+
+        return "%s".formatted(orien);
     }
 
     public boolean isAt(Vector2d pos){
         return (position.equals(pos));
     }
 
-    private void inBounds(int minX, int minY, int maxX, int maxY){
-        if (this.position.getX() > maxX) {
-            this.position = new Vector2d(maxX, this.position.getY());
+
+    public void move(MoveDirection direction, MoveValidator validator){
+        MapDirection neworien = this.orientation;
+        Vector2d newpos = this.position;
+
+        switch (direction) {
+            case LEFT:
+                neworien = this.orientation.previous();
+                break;
+            case RIGHT:
+                neworien = this.orientation.next();
+                break;
+            case FORWARD:
+                newpos = this.position.add(this.orientation.toUnitVector());
+                break;
+            case BACKWARD:
+                newpos = this.position.subtract(this.orientation.toUnitVector());
+                break;
+            default:
+                break;
         }
-        if (this.position.getY() > maxY) {
-            this.position = new Vector2d(this.position.getX(), maxY);
-        }
-        if (this.position.getX() < minX){
-            this.position = new Vector2d(minX, this.position.getY());
-        }
-        if (this.position.getY() < minY){
-            this.position = new Vector2d(this.position.getX(), minY);
+
+        if (validator.canMoveTo(newpos)) {
+            this.position = newpos;
+            this.orientation = neworien;
         }
     }
 
-    public void move(MoveDirection direction){
-        switch (direction){
-            case LEFT -> this.orientation = this.orientation.previous();
-            case RIGHT -> this.orientation = this.orientation.next();
-            case FORWARD -> {
-                this.position = this.position.add(this.orientation.toUnitVector());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return orientation == animal.orientation && Objects.equals(position, animal.position);
+    }
 
-                inBounds(0,0,4,4);
-            }
-            case BACKWARD -> {
-                this.position = this.position.subtract(this.orientation.toUnitVector());
-
-                inBounds(0,0,4,4);
-            }
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(orientation, position);
     }
 }
