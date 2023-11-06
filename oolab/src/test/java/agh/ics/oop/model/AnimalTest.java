@@ -12,20 +12,21 @@ public class AnimalTest {
 
     @Test
     public void move(){
-        Animal anim = new Animal(new Vector2d(0,0), MapDirection.NORTH);
+        Animal anim = new Animal(new Vector2d(0,0));
+        MoveValidator validator = new RectangularMap(4,4);
         assertEquals(new Vector2d(0,0), anim.getPosition());
         assertEquals(MapDirection.NORTH, anim.getOrientation());
-        anim.move(MoveDirection.FORWARD);
+        anim.move(MoveDirection.FORWARD, validator);
         assertEquals(new Vector2d(0,1), anim.getPosition());
-        anim.move(MoveDirection.BACKWARD);
+        anim.move(MoveDirection.BACKWARD, validator);
         assertEquals(new Vector2d(0,0), anim.getPosition());
-        anim.move(MoveDirection.LEFT);
-        anim.move(MoveDirection.FORWARD);
+        anim.move(MoveDirection.LEFT, validator);
+        anim.move(MoveDirection.FORWARD, validator);
         assertEquals(new Vector2d(0,0), anim.getPosition());
         assertEquals(MapDirection.WEST, anim.getOrientation());
-        anim.move(MoveDirection.RIGHT);
-        anim.move(MoveDirection.RIGHT);
-        anim.move(MoveDirection.FORWARD);
+        anim.move(MoveDirection.RIGHT, validator);
+        anim.move(MoveDirection.RIGHT, validator);
+        anim.move(MoveDirection.FORWARD, validator);
         assertEquals(MapDirection.EAST, anim.getOrientation());
         assertEquals(new Vector2d(1,0), anim.getPosition());
 
