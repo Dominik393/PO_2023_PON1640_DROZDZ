@@ -14,13 +14,23 @@ public class Simulation {
         this.worldMap = wm;
 
         for (int i=0; i < poss.size(); i++){
-            this.animals.add(new Animal(poss.get(i)));
-            this.worldMap.place(this.animals.get(i));
+            if (this.worldMap.place(new Animal(poss.get(i)))) {
+                this.animals.add(new Animal(poss.get(i)));
+                this.worldMap.place(this.animals.get(i));
+            }
         }
     }
 
     public ArrayList<Animal> getAnimals(){
         return animals;
+    }
+
+    public WorldMap getWorldMap() {
+        return worldMap;
+    }
+
+    public ArrayList<MoveDirection> getMoves() {
+        return moves;
     }
 
     public void run(){

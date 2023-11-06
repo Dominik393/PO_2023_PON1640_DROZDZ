@@ -20,8 +20,7 @@ public class SimulationTest {
         Simulation sim = new Simulation(moves, positions, worldMap);
         sim.run();
 
-        assertEquals(new Vector2d(0, 2) ,sim.getAnimals().get(0).getPosition());
-        assertEquals(new Vector2d(1,0), sim.getAnimals().get(1).getPosition());
+        assertEquals(new Vector2d(1, 3) ,sim.getAnimals().get(0).getPosition());
 
     }
 

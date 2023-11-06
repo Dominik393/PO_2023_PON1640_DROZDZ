@@ -25,7 +25,7 @@ public class RectangularMap implements WorldMap {
 
     @Override
     public boolean place(Animal animal) {
-        if (!(isOccupied(animal.getPosition()))){
+        if (canMoveTo(animal.getPosition())){
             animals.put(animal.getPosition(), animal);
             return true;
         }
@@ -46,10 +46,7 @@ public class RectangularMap implements WorldMap {
 
     @Override
     public Animal objectAt(Vector2d position) {
-        if (isOccupied(position)){
-            return animals.get(position);
-        }
-        return null;
+        return animals.get(position);
     }
 
     @Override
