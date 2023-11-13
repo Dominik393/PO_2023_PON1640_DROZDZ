@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.MapVisualizer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,5 +25,10 @@ abstract class AbstractWorldMap implements WorldMap {
         animals.remove(animal.getPosition());
         animal.move(direction, this);
         animals.put(animal.getPosition(), animal);
+    }
+
+    @Override
+    public ArrayList<WorldElement> getElements(){
+        return new ArrayList<WorldElement>(animals.values());
     }
 }

@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class GrassField implements WorldMap{
+public class GrassField extends AbstractWorldMap{
 
     private int grassAmount;
     private Map<Vector2d, Grass> grasses = new HashMap<>();
-    private Map<Vector2d, Animal> animals = new HashMap<>();
     private int grassDist;
 
     public GrassField(int grasscount){
@@ -50,43 +49,35 @@ public class GrassField implements WorldMap{
         return !(objectAt(position) instanceof Animal) && position.follows(new Vector2d(0,0));
     }
 
-    @Override
-    public boolean place(Animal animal) {
-        if (canMoveTo(animal.getPosition())){
-            animals.put(animal.getPosition(), animal);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void move(Animal animal, MoveDirection direction) {
-        animals.remove(animal.getPosition());
-        animal.move(direction, this);
-        animals.put(animal.getPosition(), animal);
-    }
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return (animals.containsKey(position) || grasses.containsKey(position));
+        return (super.animals.containsKey(position) || grasses.containsKey(position));
     }
 
     @Override
     public WorldElement objectAt(Vector2d position) {
-        if (animals.containsKey(position)){
-            return animals.get(position);
+        if (super.animals.containsKey(position)){
+            return super.animals.get(position);
         } else return grasses.getOrDefault(position, null);
     }
 
     @Override
     public String toString() {
         MapVisualizer mv = new MapVisualizer(this);
-        ArrayList<Vector2d> animalPositions = new ArrayList<>(animals.keySet());
+        ArrayList<Vector2d> animalPositions = new ArrayList<>(super.animals.keySet());
         int maxX = this.grassDist, maxY = this.grassDist;
-        for(int i=0; i < animalPositions.size(); i++){
-            maxX = Math.max(maxX, animalPositions.get(i).getX());
-            maxY = Math.max(maxY, animalPositions.get(i).getY());
+        for (Vector2d animalPosition : animalPositions) {
+            maxX = Math.max(maxX, animalPosition.getX());
+            maxY = Math.max(maxY, animalPosition.getY());
         }
         return mv.draw(new Vector2d(0,0), new Vector2d(maxX, maxY));
+    }
+
+    @Override
+    public ArrayList<WorldElement> getElements() {
+        ArrayList<WorldElement> answ = new ArrayList<WorldElement>(animals.values());
+        answ.addAll(grasses.values());
+        return answ;
     }
 }
