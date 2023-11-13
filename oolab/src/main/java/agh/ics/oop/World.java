@@ -49,9 +49,12 @@ public class World {
         ArrayList<MoveDirection> directions = OptionParser.move_parser(args);
         ArrayList<Vector2d> positions = new ArrayList<Vector2d>();
         WorldMap worldMap = new RectangularMap(4,4);
+        GrassField grassField = new GrassField(10);
         positions.add(new Vector2d(2,2));
-        positions.add(new Vector2d(2,2));
-        Simulation simulation = new Simulation(directions, positions, worldMap);
+        positions.add(new Vector2d(2,3));
+        Simulation simulation = new Simulation(directions, positions, grassField);
         simulation.run();
+
+
     }
 }
