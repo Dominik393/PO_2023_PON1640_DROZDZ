@@ -40,7 +40,6 @@ public class Simulation {
     public void run(){
         for(int i=0; i < moves.size(); i++){
             worldMap.move(this.animals.get(i%animals.size()), this.moves.get(i));
-            System.out.println(worldMap);
         }
     }
 }
