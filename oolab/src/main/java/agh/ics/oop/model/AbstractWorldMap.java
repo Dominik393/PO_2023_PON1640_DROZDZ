@@ -8,17 +8,19 @@ import java.util.Map;
 
 abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
+    protected MapVisualizer visualizer;
+    protected ArrayList<MapChangeListener> listeners;
 
     public WorldElement objectAt(Vector2d position){
         return animals.get(position);
     }
 
-    public boolean place(Animal animal) {
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
         if (canMoveTo(animal.getPosition())){
             animals.put(animal.getPosition(), animal);
-            return true;
+        }else {
+            throw new PositionAlreadyOccupiedException(animal.getPosition());
         }
-        return false;
     }
 
     public void move(Animal animal, MoveDirection direction) {
@@ -27,8 +29,24 @@ abstract class AbstractWorldMap implements WorldMap {
         animals.put(animal.getPosition(), animal);
     }
 
+    public abstract Boundry getCurrentBounds();
+
     @Override
     public ArrayList<WorldElement> getElements(){
         return new ArrayList<WorldElement>(animals.values());
+    }
+
+    @Override
+    public String toString() {
+        Boundry boundry = getCurrentBounds();
+        return visualizer.draw(boundry.lowerLeft(), boundry.upperRight());
+    }
+
+    public void addListener(MapChangeListener listener){
+        listeners.add(listener);
+    }
+
+    public void removeListener(MapChangeListener listener){
+        listeners.remove(listener);
     }
 }

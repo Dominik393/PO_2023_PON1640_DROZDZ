@@ -12,11 +12,15 @@ public class Simulation {
     public Simulation(ArrayList<MoveDirection> mvs, ArrayList<Vector2d> poss, WorldMap wm){
         this.moves = mvs;
         this.worldMap = wm;
+        Animal temp;
 
         for (int i=0; i < poss.size(); i++){
-            if (this.worldMap.place(new Animal(poss.get(i)))) {
-                this.animals.add(new Animal(poss.get(i)));
-                this.worldMap.place(this.animals.get(i));
+            try {
+                temp = new Animal(poss.get(i));
+                this.worldMap.place(temp);
+                this.animals.add(temp);
+            }catch (PositionAlreadyOccupiedException e){
+                System.out.println(e.getMessage());
             }
         }
     }
