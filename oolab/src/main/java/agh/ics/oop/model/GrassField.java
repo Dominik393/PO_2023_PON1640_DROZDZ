@@ -13,8 +13,10 @@ public class GrassField extends AbstractWorldMap{
     private Map<Vector2d, Grass> grasses = new HashMap<>();
     private int grassDist;
 
+
     public GrassField(int grasscount){
         this.grassAmount = grasscount;
+        visualizer = new MapVisualizer(this);
 
         this.grassDist = (int) Math.floor(Math.sqrt(grassAmount * 10));
 
@@ -63,15 +65,16 @@ public class GrassField extends AbstractWorldMap{
     }
 
     @Override
-    public String toString() {
-        MapVisualizer mv = new MapVisualizer(this);
+    public Boundry getCurrentBounds(){
         ArrayList<Vector2d> animalPositions = new ArrayList<>(super.animals.keySet());
-        int maxX = this.grassDist, maxY = this.grassDist;
+        int maxX = this.grassDist, maxY = this.grassDist, minX = 0, minY = 0;
         for (Vector2d animalPosition : animalPositions) {
+            minX = Math.min(minX, animalPosition.getX());
+            minY = Math.min(minY, animalPosition.getY());
             maxX = Math.max(maxX, animalPosition.getX());
             maxY = Math.max(maxY, animalPosition.getY());
         }
-        return mv.draw(new Vector2d(0,0), new Vector2d(maxX, maxY));
+        return new Boundry(new Vector2d(minX, minY), new Vector2d(maxX, maxY));
     }
 
     @Override

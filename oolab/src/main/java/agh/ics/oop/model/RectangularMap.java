@@ -15,6 +15,8 @@ public class RectangularMap extends AbstractWorldMap {
         this.width = w;
         this.height = h;
         this.upperright = new Vector2d(w,h);
+
+        visualizer = new MapVisualizer(this);
     }
 
     @Override
@@ -28,8 +30,7 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    public String toString() {
-        MapVisualizer mv = new MapVisualizer(this);
-        return mv.draw(lowerleft, upperright);
+    public Boundry getCurrentBounds(){
+        return new Boundry(lowerleft, upperright);
     }
 }

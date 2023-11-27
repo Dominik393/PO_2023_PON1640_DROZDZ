@@ -30,7 +30,7 @@ public class OptionParser {
                     moveList.add(MoveDirection.LEFT);
                     break;
                 default: {
-                    ;
+                    throw new IllegalArgumentException(args[i] + " is not valid move specification");
                 }
             }
         }

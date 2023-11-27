@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class OptionParserTest {
@@ -29,5 +28,10 @@ public class OptionParserTest {
         expected.add(MoveDirection.RIGHT);
         expected.add(MoveDirection.RIGHT);
         assertArrayEquals(new ArrayList[]{expected}, new ArrayList[]{actual});
+    }
+
+    @Test
+    public void error_handling(){
+        assertThrows(IllegalArgumentException.class, () -> OptionParser.move_parser(new String[]{"f", "b", "l", "r", "Nani?"}));
     }
 }

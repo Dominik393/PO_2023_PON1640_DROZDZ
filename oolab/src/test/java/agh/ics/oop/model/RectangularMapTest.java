@@ -15,7 +15,8 @@ public class RectangularMapTest {
         ArrayList<Vector2d> positions = new ArrayList<Vector2d>();
         positions.add(new Vector2d(0,0));
         positions.add(new Vector2d(0,0));
-        WorldMap worldMap = new RectangularMap(4,4);
+        RectangularMap worldMap = new RectangularMap(4,4);
+        worldMap.addListener(new ConsoleMapDisplay());
 
         ArrayList<MoveDirection> moves = OptionParser.move_parser(new String[]{"f","f", "f", "r", "f", "f", "b", "r"});
         Simulation sim = new Simulation(moves, positions, worldMap);
@@ -31,7 +32,8 @@ public class RectangularMapTest {
         positions.add(new Vector2d(0,0));
         positions.add(new Vector2d(1,0));
         positions.add(new Vector2d(1,1));
-        WorldMap worldMap = new RectangularMap(4,4);
+        RectangularMap worldMap = new RectangularMap(4,4);
+        worldMap.addListener(new ConsoleMapDisplay());
 
         ArrayList<MoveDirection> moves = OptionParser.move_parser(new String[]{"f","f", "f", "r", "f", "f", "b", "r",
                 "l", "r", "f", "b", "b"});
