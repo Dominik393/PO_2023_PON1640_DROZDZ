@@ -46,4 +46,19 @@ public class RectangularMapTest {
 
     }
 
+    @Test
+    public void idTest(){
+        RectangularMap rectangularMap1 = new RectangularMap(10,10);
+        RectangularMap rectangularMap2 = new RectangularMap(10,10);
+        RectangularMap rectangularMap3 = new RectangularMap(10,10);
+
+        rectangularMap1.getId();
+        rectangularMap2.getId();
+        rectangularMap3.getId();
+
+        assertEquals(0, rectangularMap1.instanceId);
+        assertEquals(1, rectangularMap2.instanceId);
+        assertEquals(2, rectangularMap3.instanceId);
+    }
+
 }
