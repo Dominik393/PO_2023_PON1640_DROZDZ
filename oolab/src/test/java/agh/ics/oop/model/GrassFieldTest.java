@@ -45,4 +45,19 @@ public class GrassFieldTest {
         assertEquals(new Vector2d(2,3), sim.getAnimals().get(2).getPosition());
 
     }
+
+    @Test
+    public void idTest(){
+        GrassField grassField1 = new GrassField(10);
+        GrassField grassField2 = new GrassField(10);
+        GrassField grassField3 = new GrassField(10);
+
+        grassField1.getId();
+        grassField2.getId();
+        grassField3.getId();
+
+        assertEquals(0, grassField1.instanceId);
+        assertEquals(1, grassField2.instanceId);
+        assertEquals(2, grassField3.instanceId);
+    }
 }

@@ -25,7 +25,6 @@ public class World {
     public static void main(String[] args) {
         System.out.println("system wystartował");
         run(OptionParser.move_parser(args));
-        System.out.println("system zakończył działanie");
 
         System.out.println();
 
@@ -54,9 +53,14 @@ public class World {
         grassField.addListener(new ConsoleMapDisplay());
         positions.add(new Vector2d(2,2));
         positions.add(new Vector2d(2,3));
-        Simulation simulation = new Simulation(directions, positions, grassField);
-        simulation.run();
-
+        Simulation simulation1 = new Simulation(directions, positions, grassField);
+        Simulation simulation2 = new Simulation(directions, positions, worldMap);
+        ArrayList<Simulation> simulations = new ArrayList<>();
+        simulations.add(simulation1);
+        simulations.add(simulation2);
+        SimulationEngine simulationEngine = new SimulationEngine(simulations);
+        simulationEngine.runAsync();
+        System.out.println("system zakończył działanie");
 
     }
 }

@@ -10,10 +10,12 @@ abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected MapVisualizer visualizer;
     protected ArrayList<MapChangeListener> listeners = new ArrayList<>();
+    protected int instanceId = -1;
 
     public WorldElement objectAt(Vector2d position){
         return animals.get(position);
     }
+    private static int id = -1;
 
     public void place(Animal animal) throws PositionAlreadyOccupiedException {
         if (canMoveTo(animal.getPosition())){
@@ -64,5 +66,13 @@ abstract class AbstractWorldMap implements WorldMap {
         for (MapChangeListener listener : listeners)
             listener.mapChanged(this, result);
         return result;
+    }
+
+    public int getId(){
+        if (instanceId == -1){
+            id += 1;
+            instanceId = id;
+        }
+        return instanceId;
     }
 }
