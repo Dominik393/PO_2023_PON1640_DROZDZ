@@ -60,6 +60,7 @@ public class World {
         simulations.add(simulation2);
         SimulationEngine simulationEngine = new SimulationEngine(simulations);
         simulationEngine.runAsync();
+        simulationEngine.awaitSimulationsEnd();
         System.out.println("system zakończył działanie");
 
     }
