@@ -15,6 +15,7 @@ public class SimulationApp extends Application {
         primaryStage.setTitle("Simulation app");
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
+        primaryStage.show();
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -22,6 +23,14 @@ public class SimulationApp extends Application {
         loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
         BorderPane viewRoot = loader.load();
         SimulationPresenter presenter = loader.getController();
-        primaryStage.show();
+        
+        RectangularMap map = new RectangularMap(10, 10);
+        Animal animal = new Animal(new Vector2d(3, 4));
+        map.place(animal);
+
+        presenter.setWorldMap(map);
+        presenter.drawMap();
+
+        configureStage(primaryStage, viewRoot);
     }
 }
